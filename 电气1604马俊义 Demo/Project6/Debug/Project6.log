@@ -1,0 +1,5 @@
+﻿  源.cpp
+c:\users\mjy\source\repos\project6\project6\源.cpp(53): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+c:\users\mjy\source\repos\project6\project6\源.cpp(80): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+c:\users\mjy\source\repos\project6\project6\源.cpp(92): warning C4305: “参数”: 从“double”到“float”截断
+  Project6.vcxproj -> C:\Users\MJY\source\repos\Project6\Debug\Project6.exe
