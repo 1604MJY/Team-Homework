@@ -14,7 +14,14 @@ namespace WindowsFormsApp2
         public double Resis3;
         public double Resis4;
 
-        public Circuit() { }
+        public Circuit() {
+
+            Voltage = 0;
+            Resis1 = 0;
+            Resis2 = 0;
+            Resis3 = 0;
+            Resis4 = 0;
+        }
 
         public Circuit(double voltage, double resis1, double resis2, double resis3, double resis4)
         {

@@ -56,7 +56,7 @@ namespace WindowsFormsApp2
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-
+            AmpCalculator circuitCalc;
             double V = double.Parse(textBox6.Text);
             double R1 = double.Parse(textBox10.Text);
             double R2 = double.Parse(textBox9.Text);
@@ -64,21 +64,20 @@ namespace WindowsFormsApp2
             double R4 = double.Parse(textBox7.Text);
             Circuit circuit = new Circuit(V, R1, R2, R3, R4);
             if (this.图一.Checked == true)
-            {//判断是否为空
-                double ca1;
-                ca1 = Cacu1.Ca1(circuit);
-                string output1 = ca1.ToString();
-                MessageBox.Show("V= " + textBox6.Text + " R1= " + textBox10.Text + " Ω " + " R2= " + textBox9.Text + " Ω " + " R3= " + textBox8.Text + " Ω " + " R4= " + textBox7.Text + " Ω " + "I = " + output1 + " A");
+            {
+                circuitCalc = new Cacu1(circuit);
+                MessageBox.Show("V= " + textBox6.Text + " R1= " + textBox10.Text + " Ω " + " R2= " + textBox9.Text + " Ω " + " R3= " + textBox8.Text + " Ω " + " R4= " + textBox7.Text + " Ω ");
+                MessageBox.Show(" I = " + circuitCalc.CalculateAmp().ToString() + " A ");
             }
             else if (this.radioButton3.Checked == true)
             {
-                double ca2;
-                ca2 = Cacu2.Ca2(circuit);
-                string output2 = ca2.ToString();
-                MessageBox.Show("V= " + textBox6.Text + " R1= " + textBox10.Text + " Ω " + " R2= " + textBox9.Text + " Ω " + " R3= " + textBox8.Text + " Ω " + " R4= " + textBox7.Text + " Ω " + "I = " + output2 + " A");
+                circuitCalc = new Cacu2(circuit);
+                MessageBox.Show("V= " + textBox6.Text + " R1= " + textBox10.Text + " Ω " + " R2= " + textBox9.Text + " Ω " + " R3= " + textBox8.Text + " Ω " + " R4= " + textBox7.Text + " Ω ");
+
+                MessageBox.Show(" I = " + circuitCalc.CalculateAmp().ToString() + " A ");
             }
             else if (this.radioButton3.Checked == false && this.图一.Checked == false)
-                errorProvider1.SetError(radioButton3, "请选择电路类型！");
+                      errorProvider1.SetError(radioButton3, "请选择电路类型！");
 
         }
 
@@ -113,23 +112,21 @@ namespace WindowsFormsApp2
             Circuit circuit = new Circuit(V, R1, R2, R3, R4);
             if (this.radioButton6.Checked == true)
             {
-                circuitCalc = new Cacu1(circuit);
-                double ca1;
-                ca1 = Cacu3.Ca3(circuit);
-                string output1 = ca1.ToString();
-                MessageBox.Show("V= " + textBox11.Text + " R1= " + textBox15.Text + " Ω " + " R2= " + textBox14.Text + " Ω " + " R3= " + textBox13.Text + " Ω " + "I = " + output1 + " A");
+                circuitCalc = new Cacu3(circuit);
+                MessageBox.Show("V= " + textBox11.Text + " R1= " + textBox15.Text + " Ω " + " R2= " + textBox14.Text + " Ω " + " R3= " + textBox13.Text + " Ω " );
+                MessageBox.Show(" I = " + circuitCalc.CalculateAmp().ToString() + " A ");
             }
             else if (this.radioButton5.Checked == true)
             {
-                double ca2;
-                ca2 = Cacu4.Ca4(circuit);
-                string output2 = ca2.ToString();
-                MessageBox.Show("V= " + textBox11.Text + " R1= " + textBox15.Text + " Ω " + " R2= " + textBox14.Text + " Ω " + " R3= " + textBox13.Text + " Ω " + "I = " + output2 + " A");
+                circuitCalc = new Cacu4(circuit);
+                MessageBox.Show("V= " + textBox11.Text + " R1= " + textBox15.Text + " Ω " + " R2= " + textBox14.Text + " Ω " + " R3= " + textBox13.Text + " Ω  ");
+
+                MessageBox.Show(" I = " + circuitCalc.CalculateAmp().ToString() + " A ");
             }
             else if (this.radioButton5.Checked == false && this.radioButton6.Checked == false)
                 errorProvider1.SetError(radioButton5, "请选择电路类型！");
 
-            MessageBox.Show(circuitCalc.CalculateAmp().ToString());
+     
 
         }
 
@@ -160,97 +157,27 @@ namespace WindowsFormsApp2
 
         private void textBox10_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Char.IsNumber(e.KeyChar) && !Char.IsPunctuation(e.KeyChar) && !Char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;//消除不合适字符  
-            }
-            else if (Char.IsPunctuation(e.KeyChar))
-            {
-                if (e.KeyChar != '.' || this.textBox10.Text.Length == 0)//小数点  
-                {
-                    e.Handled = true;
-                }
-                if (textBox10.Text.LastIndexOf('.') != -1)
-                {
-                    e.Handled = true;
-                }
-            }
+            e.Handled = textRestrict.restrict(this.textBox10.Text.Length, textBox10.Text.LastIndexOf('.'), e.KeyChar);
         }
 
         private void textBox9_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Char.IsNumber(e.KeyChar) && !Char.IsPunctuation(e.KeyChar) && !Char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;//消除不合适字符  
-            }
-            else if (Char.IsPunctuation(e.KeyChar))
-            {
-                if (e.KeyChar != '.' || this.textBox9.Text.Length == 0)//小数点  
-                {
-                    e.Handled = true;
-                }
-                if (textBox9.Text.LastIndexOf('.') != -1)
-                {
-                    e.Handled = true;
-                }
-            }
+            e.Handled = textRestrict.restrict(this.textBox9.Text.Length, textBox9.Text.LastIndexOf('.'), e.KeyChar);
         }
 
         private void textBox8_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Char.IsNumber(e.KeyChar) && !Char.IsPunctuation(e.KeyChar) && !Char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;//消除不合适字符  
-            }
-            else if (Char.IsPunctuation(e.KeyChar))
-            {
-                if (e.KeyChar != '.' || this.textBox8.Text.Length == 0)//小数点  
-                {
-                    e.Handled = true;
-                }
-                if (textBox8.Text.LastIndexOf('.') != -1)
-                {
-                    e.Handled = true;
-                }
-            }
+            e.Handled = textRestrict.restrict(this.textBox8.Text.Length, textBox8.Text.LastIndexOf('.'), e.KeyChar);
         }
 
         private void textBox7_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Char.IsNumber(e.KeyChar) && !Char.IsPunctuation(e.KeyChar) && !Char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;//消除不合适字符  
-            }
-            else if (Char.IsPunctuation(e.KeyChar))
-            {
-                if (e.KeyChar != '.' || this.textBox7.Text.Length == 0)//小数点  
-                {
-                    e.Handled = true;
-                }
-                if (textBox7.Text.LastIndexOf('.') != -1)
-                {
-                    e.Handled = true;
-                }
-            }
+            e.Handled = textRestrict.restrict(this.textBox7.Text.Length, textBox7.Text.LastIndexOf('.'), e.KeyChar);
         }
 
         private void textBox6_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Char.IsNumber(e.KeyChar) && !Char.IsPunctuation(e.KeyChar) && !Char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;//消除不合适字符  
-            }
-            else if (Char.IsPunctuation(e.KeyChar))
-            {
-                if (e.KeyChar != '.' || this.textBox6.Text.Length == 0)//小数点  
-                {
-                    e.Handled = true;
-                }
-                if (textBox6.Text.LastIndexOf('.') != -1)
-                {
-                    e.Handled = true;
-                }
-            }
+            e.Handled = textRestrict.restrict(this.textBox6.Text.Length, textBox6.Text.LastIndexOf('.'), e.KeyChar);
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
@@ -260,83 +187,22 @@ namespace WindowsFormsApp2
 
         private void textBox15_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Char.IsNumber(e.KeyChar) && !Char.IsPunctuation(e.KeyChar) && !Char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;//消除不合适字符  
-            }
-            else if (Char.IsPunctuation(e.KeyChar))
-            {
-                if (e.KeyChar != '.' || this.textBox15.Text.Length == 0)//小数点  
-                {
-                    e.Handled = true;
-                }
-                if (textBox15.Text.LastIndexOf('.') != -1)
-                {
-                    e.Handled = true;
-                }
-            }
+            e.Handled = textRestrict.restrict(this.textBox15.Text.Length, textBox15.Text.LastIndexOf('.'), e.KeyChar);
         }
 
         private void textBox14_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Char.IsNumber(e.KeyChar) && !Char.IsPunctuation(e.KeyChar) && !Char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;//消除不合适字符  
-            }
-            else if (Char.IsPunctuation(e.KeyChar))
-            {
-                if (e.KeyChar != '.' || this.textBox14.Text.Length == 0)//小数点  
-                {
-                    e.Handled = true;
-                }
-                if (textBox14.Text.LastIndexOf('.') != -1)
-                {
-                    e.Handled = true;
-                }
-            }
+            e.Handled = textRestrict.restrict(this.textBox14.Text.Length, textBox14.Text.LastIndexOf('.'), e.KeyChar);
         }
 
         private void textBox13_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Char.IsNumber(e.KeyChar) && !Char.IsPunctuation(e.KeyChar) && !Char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;//消除不合适字符  
-            }
-            else if (Char.IsPunctuation(e.KeyChar))
-            {
-                if (e.KeyChar != '.' || this.textBox13.Text.Length == 0)//小数点  
-                {
-                    e.Handled = true;
-                }
-                if (textBox13.Text.LastIndexOf('.') != -1)
-                {
-                    e.Handled = true;
-                }
-            }
-        }
-
-        private void textBox12_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
+            e.Handled = textRestrict.restrict(this.textBox13.Text.Length, textBox13.Text.LastIndexOf('.'), e.KeyChar);
         }
 
         private void textBox11_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Char.IsNumber(e.KeyChar) && !Char.IsPunctuation(e.KeyChar) && !Char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;//消除不合适字符  
-            }
-            else if (Char.IsPunctuation(e.KeyChar))
-            {
-                if (e.KeyChar != '.' || this.textBox11.Text.Length == 0)//小数点  
-                {
-                    e.Handled = true;
-                }
-                if (textBox11.Text.LastIndexOf('.') != -1)
-                {
-                    e.Handled = true;
-                }
-            }
+            e.Handled = textRestrict.restrict(this.textBox11.Text.Length, textBox11.Text.LastIndexOf('.'), e.KeyChar);
         }
 
 

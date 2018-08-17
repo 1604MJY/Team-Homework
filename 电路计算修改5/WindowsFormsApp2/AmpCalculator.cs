@@ -15,6 +15,7 @@ namespace WindowsFormsApp2
             MyCircuit = circuit;
         }
 
+ 
         public virtual double CalculateAmp()
         {
             throw new NotImplementedException();

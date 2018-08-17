@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp2
 {
-    public class Cacu2
+    public class Cacu2:AmpCalculator
     {
-        static public double Ca2(Circuit circuit)
-        { double Resisnum,current;
-            Resisnum = (circuit.Resis2 * circuit.Resis4) / (circuit.Resis2 + circuit.Resis4);
-            current = Math.Round((circuit.Voltage / (circuit.Resis1 + Resisnum)) + (circuit.Voltage / circuit.Resis3),3);
+        public  Cacu2 (Circuit circuit) : base (circuit)
+        {
+        }
+
+        public override double CalculateAmp() {
+            double Resisnum, current;
+            Resisnum = (MyCircuit.Resis2 * MyCircuit.Resis4) / (MyCircuit.Resis2 + MyCircuit.Resis4);
+            current = Math.Round((MyCircuit.Voltage / (MyCircuit.Resis1 + Resisnum)) + (MyCircuit.Voltage / MyCircuit.Resis3), 3);
             return current;
         }
+
     }
 }
